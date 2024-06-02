@@ -22,8 +22,10 @@ try {
         return;
     }
     // if privateKey is a path, read the file
+    // Ensure there is a newline at the end of the file
     if (fs.existsSync(privateKey)) {
         privateKey = fs.readFileSync(privateKey, 'utf8');
+        privateKey = privateKey.trim() + "\n";
     }
 
     const homeSsh = homePath + '/.ssh';
