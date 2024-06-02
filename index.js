@@ -21,6 +21,10 @@ try {
 
         return;
     }
+    // if privateKey is a path, read the file
+    if (fs.existsSync(privateKey)) {
+        privateKey = fs.readFileSync(privateKey, 'utf8');
+    }
 
     const homeSsh = homePath + '/.ssh';
     fs.mkdirSync(homeSsh, { recursive: true });
