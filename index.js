@@ -21,12 +21,6 @@ try {
 
         return;
     }
-    // if privateKey is a path, read the file
-    // Ensure there is a newline at the end of the file
-    if (fs.existsSync(privateKey)) {
-        privateKey = fs.readFileSync(privateKey, 'utf8');
-        privateKey = privateKey.trim() + "\n";
-    }
 
     const homeSsh = homePath + '/.ssh';
     fs.mkdirSync(homeSsh, { recursive: true });
@@ -49,9 +43,15 @@ try {
 
     console.log("Adding private key(s) to agent");
 
-    privateKey.split(/(?=-----BEGIN)/).forEach(function(key) {
-        child_process.execFileSync(sshAddCmd, ['-'], { input: key.trim() + "\n" });
-    });
+    if (fs.existsSync(privateKey)) {
+        child_process.execFileSync(sshAddCmd, [privateKey]);
+    }
+    else {
+        privateKey.split(/(?=-----BEGIN)/).forEach(function(key) {
+            child_process.execFileSync(sshAddCmd, ['-'], { input: key.trim() + "\n" });
+        });
+    }
+
 
     console.log("Key(s) added:");
 
