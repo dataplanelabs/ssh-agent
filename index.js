@@ -42,16 +42,8 @@ try {
     });
 
     console.log("Adding private key(s) to agent");
-
-    if (fs.existsSync(privateKey)) {
-        child_process.execFileSync(sshAddCmd, [privateKey]);
-    }
-    else {
-        privateKey.split(/(?=-----BEGIN)/).forEach(function(key) {
-            child_process.execFileSync(sshAddCmd, ['-'], { input: key.trim() + "\n" });
-        });
-    }
-
+    console.log(`echo "${privateKey}" | ${sshAddCmd}`);
+    child_process.execFileSync(sshAddCmd, [privateKey]);
 
     console.log("Key(s) added:");
 
