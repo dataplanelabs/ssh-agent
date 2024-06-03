@@ -44,18 +44,15 @@ try {
     console.log("Adding private key(s) to agent");
     child_process.execFileSync(sshAddCmd, [privateKey]);
 
-    console.log("Key(s) added:");
-
+    console.log("Key added:");
     child_process.execFileSync(sshAddCmd, ['-l'], { stdio: 'inherit' });
-
     console.log('Configuring deployment key(s)');
-
     child_process.execFileSync(sshAddCmd, ['-L']).toString().trim().split(/\r?\n/).forEach(function(key) {
         const parts = key.match(/\bgithub\.com[:/]([_.a-z0-9-]+\/[_.a-z0-9-]+)/i);
 
         if (!parts) {
             if (logPublicKey) {
-              console.log(`Comment for (public) key '${key}' does not match GitHub URL pattern. Not treating it as a GitHub deploy key.`);
+              console.log(`Comment for (public) key does not match GitHub URL pattern. Not treating it as a GitHub deploy key.`);
             }
             return;
         }
@@ -75,7 +72,6 @@ try {
                               + `    IdentitiesOnly yes\n`;
 
         fs.appendFileSync(`${homeSsh}/config`, sshConfig);
-
         console.log(`Added deploy-key mapping: Use identity '${homeSsh}/key-${sha256}' for GitHub repository ${ownerAndRepo}`);
     });
 
