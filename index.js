@@ -42,7 +42,6 @@ try {
     });
 
     console.log("Adding private key(s) to agent");
-    console.log(`echo "${privateKey}" | ${sshAddCmd}`);
     child_process.execFileSync(sshAddCmd, [privateKey]);
 
     console.log("Key(s) added:");
