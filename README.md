@@ -1,7 +1,3 @@
-Here’s a rewritten and streamlined version of your README:
-
----
-
 # `ssh-agent` GitHub Action
 
 This action simplifies SSH key management in GitHub workflows by:  
